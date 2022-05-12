@@ -117,5 +117,6 @@ public class Client {
 		System.out.println("Insira do cliente para excluí-lo: ");
 		int i = input.nextInt();
 		arr[i] = null;
+		System.out.println("Cliente excluído com sucesso!");
 	}
 }
