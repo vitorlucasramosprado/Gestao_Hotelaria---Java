@@ -74,28 +74,48 @@ public class Client {
 		int number = input.nextInt();
 		switch(number) {
 			case 1: 
-				System.out.println("quantidade de clientes cadastrados: " + index);
-				arr[index] = new Client();
+				createCLient();
 				break;
 			case 2:
+				arr[0].setName();
 				break;
 			case 3:
-				System.out.print("Insira o código do cliente: ");
-				int cod = input.nextInt();
-				System.out.println("nome: "+ arr[cod].getName()+
-						"\nData de nascimento: "+arr[cod].getBirthDate()+
-						"\nE-mail: "+ arr[cod].getContact().getEmail()+
-						"\nTelefone: "+ arr[cod].getContact().getTelephone()+
-						"\nCidade: "+arr[cod].getContact().getCity()+
-						"\nUF: "+arr[cod].getContact().getUf()+
-						"\nFumante: "+ arr[cod].getSmoker());
+				listClient();	
 				break;
 			case 4:
-				System.out.println("Insira do cliente para excluí-lo: ");
-				int i = input.nextInt();
-				arr[i] = null;
-				break;			
-				
+				delClient();
+				break;				
 		}
+	}
+	public static void createCLient() {
+		System.out.println("\n*********************************************"
+				+ "\n\n                 NOVO CLIENTE");
+		arr[index] = new Client();
+		System.out.println("Cliente cadastrado com sucesso!");
+	}
+	public static void listClient() {
+		Scanner input = new Scanner(System.in);
+
+		System.out.print("Insira o código do cliente: ");
+		int cod = input.nextInt();
+		
+			if (arr[cod] == null) {
+				System.out.println("Cliente inexistente");
+			}else {
+				System.out.println("nome: "+ arr[cod].getName()+
+					"\nData de nascimento: "+arr[cod].getBirthDate()+
+					"\nE-mail: "+ arr[cod].getContact().getEmail()+
+					"\nTelefone: "+ arr[cod].getContact().getTelephone()+
+					"\nCidade: "+arr[cod].getContact().getCity()+
+					"\nUF: "+arr[cod].getContact().getUf()+
+					"\nFumante: "+ arr[cod].getSmoker());
+		}
+	}
+	public static void delClient() {
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("Insira do cliente para excluí-lo: ");
+		int i = input.nextInt();
+		arr[i] = null;
 	}
 }
