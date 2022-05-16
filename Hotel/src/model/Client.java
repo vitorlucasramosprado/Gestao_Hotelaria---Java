@@ -7,7 +7,6 @@ public class Client extends Contact {
 	private String name;
 	private String birthDate;
 	private char smoker;
-	public static Client arr[] = new Client[100];
 	public static int index = 0;
 	
 	public Client() {
@@ -59,43 +58,53 @@ public class Client extends Contact {
 		this.smoker = smoker;
 	}
 	
-	public static void callHeader() {
-		//IMPRIME A TELA DE OPÇÕES DO CLIENTE 
-		System.out.println("**************************************************"
-				+ "\n                  MENU - CLIENTE"
-				+ "\n**************************************************"
-				+ "\n1 - Cadastrar"
-				+ "\n2 - Editar"
-				+ "\n3 - Listar"
-				+ "\n4 - Excluir"
-				+ "\n\nSelecione uma opção acima: ");
+	public static void createCustomer() {
+		//CRIA UM NOVO CLIENTE ACIONANDO O CONSTRUTOR Client
+		System.out.println("\n***************************************************"
+				+ "\n                   NOVO CLIENTE");
+		Hotel.client[index] = new Client();
+		System.out.println("\nCliente cadastrado com sucesso!");
 	}
-	public static void menuClient() {
-		//CHAMA AS FUNÇÕES DO CLIENTE
-		Scanner input = new Scanner(System.in);
-		
-		int number = input.nextInt();
-		switch(number) {
-			case 1: 
-				createCustomer();
-				break;
-			case 2:
-				alterCustomer();
-				break;
-			case 3:
-				listCustomer();	
-				break;
-			case 4:
-				deleteCustomer();
-				break;				
+	public static void listCustomer() {
+		//LISTA TODOS OS CLIENTES
+		System.out.println("\n***************************************************"
+						   + "\n                  LISTA DE CLIENTES");
+		int i = 0;
+		while(i < index) {
+			if(Hotel.client[i] != null) {
+			System.out.println("__________________________________________________"+
+					"\n                 "+Hotel.client[i].getName()+
+					"\nCódigo: "+i+ 
+					"\nData de nascimento: "+Hotel.client[i].getBirthDate()+
+					"\nE-mail: "+ Hotel.client[i].getEmail()+
+					"\nTelefone: "+ Hotel.client[i].getTelephone()+
+					"\nCidade: "+Hotel.client[i].getCity()+
+					"\nUF: "+Hotel.client[i].getUf()+
+					"\nFumante: "+ Hotel.client[i].getSmoker());	
+			}else {
+				System.out.println("\n**************************************************"
+						+ "\nCódigo:"+i+"|Cliente inexistente"
+						+ "\n**************************************************");
+			}
+			i++;
 		}
 	}
-	public static void menuAlter(int cod) {
+	public static void deleteCustomer() {
+		//DELETA CLIENTE
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("Insira o código do cliente para excluí-lo: ");
+		int i = input.nextInt();
+		Hotel.client[i] = null;
+		System.out.println("Cliente excluído com sucesso!");
+	}
+	
+	public static void screenModify(int cod) {
 		//CHAMA A TELA DO MENU DE ALTERAÇÃO
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("\n****************************************"
-				+ "\n ALTERA CLIENTE: "+arr[cod].getName()
+				+ "\n ALTERA CLIENTE: "+Hotel.client[cod].getName()
 				+ "\n1 - nome"
 				+ "\n2 - Data de nascimento"
 				+ "\n3 - E-mail"
@@ -105,97 +114,61 @@ public class Client extends Contact {
 				+ "\n7 - Fumante "
 				+ "\n\nDigite o número do campo que deseja alterar");
 	}
-	
-	public static void createCustomer() {
-		//CRIA UM NOVO CLIENTE ACIONANDO O CONSTRUTOR Client
-		System.out.println("\n*********************************************"
-				+ "\n\n                 NOVO CLIENTE");
-		arr[index] = new Client();
-		System.out.println("\nCliente cadastrado com sucesso!");
-	}
-	public static void listCustomer() {
-		//LISTA TODOS OS CLIENTES
-		int i = 0;
-		while(i < index) {
-			if(arr[i] != null) {
-			System.out.println("***************************************"+
-					"\nCódigo: "+i+
-					 "\nNome: "+ arr[i].getName()+
-					"\nData de nascimento: "+arr[i].getBirthDate()+
-					"\nE-mail: "+ arr[i].getEmail()+
-					"\nTelefone: "+ arr[i].getTelephone()+
-					"\nCidade: "+arr[i].getCity()+
-					"\nUF: "+arr[i].getUf()+
-					"\nFumante: "+ arr[i].getSmoker());
-			i++;
-			}
-		}
-	}
-	public static void deleteCustomer() {
-		//DELETA CLIENTE
-		Scanner input = new Scanner(System.in);
-
-		System.out.println("Insira o código do cliente para excluí-lo: ");
-		int i = input.nextInt();
-		arr[i] = null;
-		System.out.println("Cliente excluído com sucesso!");
-	}
-	public static void alterCustomer() {
+	public static void modifyCustomer() {
 		//ALTERA OS DADOS DO CLIENTE
 		Scanner input = new Scanner(System.in);
 		
-		System.out.println("Código do cliente que deseja alterar: ");
+		System.out.println("Código do cliente que deseja editar: ");
 		int cod = input.nextInt();
-		menuAlter(cod);
-		int number = input.nextInt();
-			switch(number) {
-				case 1:
-					//ALTERA NOME DO CLIENTE
-					System.out.print("Novo nome: ");
-					arr[cod].setName(new Scanner(System.in).nextLine());
-					System.out.println("\nNome alterado com sucesso!");
-					break;
-				case 2:
-					//ALTERA DATA DE NASCIMENTO
-					System.out.print("Nova data: ");
-					arr[cod].setBirthDate(new Scanner(System.in).nextLine());
-					System.out.println("\nNome alterado com sucesso!");
-					break;
-				case 3:
-					//ALTERA EMAIL
-					System.out.print("Novo E-mail: ");
-					arr[cod].setEmail(new Scanner(System.in).nextLine());
-					System.out.println("\nData de nascimento alterada com sucesso!");
-					break;
-				case 4:
-					//ALTERA TELEFONE
-					System.out.print("Novo Telefone: ");
-					arr[cod].setTelephone(new Scanner(System.in).nextLine());
-					System.out.println("\nTelefone alterado com sucesso!");
-					break;
-				case 5: 
-					//ALTERA CIDADE
-					System.out.print("Nova cidade: ");
-					arr[cod].setCity(new Scanner(System.in).nextLine());
-					System.out.println("\nCidade alterada com sucesso!");
-					break;
-				case 6:
-					//ALTERA UNIDADE FEDERATIVA
-					System.out.print("Nova unidade federativa: ");
-					arr[cod].setUf(new Scanner(System.in).nextLine());
-					System.out.println("\nCidade alterada com sucesso!");
-					break;
-				case 7:
-					//ALTERA FUMANTE
-					System.out.print("Altere fumante para: ");
-					arr[cod].setSmoker(new Scanner(System.in).next().charAt(0));
-					System.out.println("\nFumante alterado com sucesso!");
-					break;
-					
-					
-					
-					
+			if(Hotel.client[cod] == null) {
+				System.out.println("cliente inexistente");
+			}else {
+			screenModify(cod);
+			int number = input.nextInt();
+				switch(number) {
+					case 1:
+						//ALTERA NOME DO CLIENTE
+						System.out.print("Novo nome: ");
+						Hotel.client[cod].setName(new Scanner(System.in).nextLine());
+						System.out.println("\nNome alterado com sucesso!");
+						break;
+					case 2:
+						//ALTERA DATA DE NASCIMENTO
+						System.out.print("Nova data: ");
+						Hotel.client[cod].setBirthDate(new Scanner(System.in).nextLine());
+						System.out.println("\nNome alterado com sucesso!");
+						break;
+					case 3:
+						//ALTERA EMAIL
+						System.out.print("Novo E-mail: ");
+						Hotel.client[cod].setEmail(new Scanner(System.in).nextLine());
+						System.out.println("\nData de nascimento alterada com sucesso!");
+						break;
+					case 4:
+						//ALTERA TELEFONE
+						System.out.print("Novo Telefone: ");
+						Hotel.client[cod].setTelephone(new Scanner(System.in).nextLine());
+						System.out.println("\nTelefone alterado com sucesso!");
+						break;
+					case 5: 
+						//ALTERA CIDADE
+						System.out.print("Nova cidade: ");
+						Hotel.client[cod].setCity(new Scanner(System.in).nextLine());
+						System.out.println("\nCidade alterada com sucesso!");
+						break;
+					case 6:
+						//ALTERA UNIDADE FEDERATIVA
+						System.out.print("Nova unidade federativa: ");
+						Hotel.client[cod].setUf(new Scanner(System.in).nextLine());
+						System.out.println("\nCidade alterada com sucesso!");
+						break;
+					case 7:
+						//ALTERA FUMANTE
+						System.out.print("Altere fumante para: ");
+						Hotel.client[cod].setSmoker(new Scanner(System.in).next().charAt(0));
+						System.out.println("\nFumante alterado com sucesso!");
+						break;			
+				}	
 			}	
 	}
-
 }
