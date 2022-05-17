@@ -8,12 +8,11 @@ public class Room {
 	private int number;
 	private int capacity;
 	private Double price;
-	private char smoker;
-	public boolean occupied = false;
+	private boolean smoker;
+	private int daysHosted;
 	private  String guest;
+	public boolean occupied = false;
 	public static int index = 0;
-	
-	
 	
 	public Room() {
 		
@@ -26,14 +25,13 @@ public class Room {
 		System.out.print("Capacidade máxima de hóspedes: ");
 		setCapacity(new Scanner(System.in).nextInt());
 		
-		System.out.print("Insira o valor da diária: ");
+		System.out.print("Insira o valor da diária: R$");
 		setPrice(new Scanner(System.in).nextDouble());
 		
-		System.out.print("Aceita fumantes?(S/N): ");
-		setSmoker(new Scanner(System.in).next().charAt(0));
+		System.out.print("Aceita fumantes?(s/n): ");
+		setSmoker(new Scanner(System.in).next());
 		
-		index++;
-		
+		index++;	
 	}
 	
 	public String getCategory() {
@@ -64,11 +62,17 @@ public class Room {
 		this.capacity = capacity;
 	}
 	
-	public char getSmoker() {
+	public boolean getSmoker() {
 		return smoker;
 	}
-	public void setSmoker(char smoker) {
-		this.smoker = smoker;
+	public void setSmoker(String smoker) {
+		if(smoker.equals("s")) {
+			this.smoker = true;
+		}else if(smoker.equals("n")) {
+			this.smoker = false;
+		}else {
+			System.out.println("WARNING:Cadastrado como não fumante");			
+		}
 	}
 	
 	public boolean getOccupied() {
@@ -85,6 +89,14 @@ public class Room {
 		this.guest = guest;
 	}
 
+	public int getDaysHosted() {
+		return daysHosted;
+	}
+	public void setDaysHosted(int daysHosted) {
+		this.daysHosted = daysHosted;
+	}
+
+	
 	public static void createRoom() {
     //CRIA UM NOVO QUARTO 
 		System.out.println("\n***************************************************"
@@ -101,6 +113,7 @@ public class Room {
 			if(Hotel.room[i] != null ) {
 				System.out.println("__________________________________________________"+
 					"\n                     "+Hotel.room[i].getCategory()+
+					"\nCódigo: "+i+
 					"\nQuarto número: "+Hotel.room[i].getNumber()+
 					"\nCapacidade máxima: "+Hotel.room[i].getCapacity()+
 					"\nValor da diária: R$"+ Hotel.room[i].getPrice()+
@@ -109,12 +122,11 @@ public class Room {
 				System.out.println("\n**************************************************"
 						+ "\nQuarto inexistente"
 						+ "\n**************************************************");
-			}
-			i++;
+			}i++;
 		}
 	}
 	public static void deleteRoom() {
-		//DELETA CLIENTE
+	//DELETA CLIENTE
 		Scanner input = new Scanner(System.in);
 	
 		System.out.print("Insira o código do quarto para excluí-lo: ");
@@ -127,7 +139,7 @@ public class Room {
 		//TELA DE ALTERAÇÃO DO QUARTO
 		Scanner input = new Scanner(System.in);
 		
-		System.out.println("\n****************************************"
+		System.out.println("\n***************************************************"
 				+ "\n ALTERA QUARTO: "+Hotel.room[cod].getNumber()
 				+ "\n1 - Categoria"
 				+ "\n2 - Número do quarto"
@@ -175,16 +187,11 @@ public class Room {
 				case 5:
 					//ALTERA STATUS DO FUMANTE
 					System.out.println("Altere fumante para:");
-					Hotel.room[cod].setSmoker(new Scanner(System.in).next().charAt(0));
+					Hotel.room[cod].setSmoker(new Scanner(System.in).next());
 					System.out.println("Fumante alterado com sucesso!");
 					break;
 			}
 		}
 	}
-	
-	
-	
-	
-	
 }
 

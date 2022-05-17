@@ -7,7 +7,7 @@ public class Hotel {
 	
 	public static Client client[] = new Client[100];
 	public static Room room[] = new Room[40];
-
+	public static double feeService = 50; 
 	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
@@ -32,11 +32,11 @@ public class Hotel {
 					check_in();
 					break;
 				case 5:
+					check_out();
 					break;
 				case 6:
 					System.out.println("Operação finalizada");
 					return;
-			
 			}			
 		}
 	}
@@ -118,47 +118,74 @@ public class Hotel {
 	}
 	
 	public static void checkRoom() {
-		//LISTA TODOS OS QUARTOS DISPONÍVEIS
-			System.out.println("\n***************************************************"
-					+ "\n                  QUARTOS DISPONÍVEIS");
-			int i = 0;
-			while(i < Room.index) {
-				if(Hotel.room[i].getOccupied() == false ) {
-					System.out.println("__________________________________________________"+
-						"\n                     "+Hotel.room[i].getCategory()+
-						"\nQuarto número: "+Hotel.room[i].getNumber()+
-						"\nCapacidade máxima: "+Hotel.room[i].getCapacity()+
-						"\nValor da diária: R$"+ Hotel.room[i].getPrice()+
-						"\nAceita fumantes?: "+ Hotel.room[i].getSmoker());
-				}else {
-					System.out.println("\n**************************************************"
-							+ "\nQuarto nº:"+Hotel.room[i].getNumber() +" OCUPADO "
-							+ "\nCliente: "+room[i].getGuest()
-							+ "\n**************************************************");
-				}
-				i++;
+	//LISTA TODOS OS QUARTOS DISPONÍVEIS
+		System.out.println("\n***************************************************"
+				+ "\n                 QUARTOS DISPONÍVEIS");
+		int i = 0;
+		while(i < Room.index) {
+			if(Hotel.room[i].getOccupied() == false ) {
+				System.out.println("__________________________________________________"+
+					"\n                     "+Hotel.room[i].getCategory()+
+					"\nCódigo: "+i+
+					"\nQuarto número: "+Hotel.room[i].getNumber()+
+					"\nCapacidade máxima: "+Hotel.room[i].getCapacity()+
+					"\nValor da diária: R$"+ Hotel.room[i].getPrice()+
+					"\nAceita fumantes?: "+ Hotel.room[i].getSmoker());
+			}else {
+				System.out.println("\n**************************************************"
+						+ "\nQuarto nº:"+Hotel.room[i].getNumber() +" OCUPADO "
+						+ "\nCliente: "+ Hotel.client[i].getName()
+						+ "\nCPF: "+room[i].getGuest()
+						+ "\n**************************************************");
 			}
+			i++;
 		}
-	
+	}
 	public static void check_in() {
 	//REALIZA CHECK-IN 
 		Scanner input = new Scanner(System.in);
-
 		System.out.println("**************************************************"
-				+ "\n                  CHECK-IN"
-				+ "\n**************************************************");
+					+ "\n                   CHECK-IN"
+					+ "\n**************************************************");
 		
-		System.out.print("Insira o código do cliente que vai se hospedar: ");
+		System.out.print("Insira o código do hóspede: ");
 		int codClient = input.nextInt();
 		
 		System.out.print("Insira o código do quarto: ");
-		int codRoom = input.nextInt();	
+		int codRoom = input.nextInt();
 		
-		String nameClient = client[codClient].getName();
-		
-		room[codRoom].setGuest(nameClient);
+		System.out.println("Quantos dias você pretende ficar hospedado: ");
+		int days = input.nextInt();
+		//Faz o processamento do check-in
+		String cpfClientIn = client[codClient].getCpf();
+		room[codRoom].setDaysHosted(days);
+		room[codRoom].setGuest(cpfClientIn);
 		room[codRoom].setOccupied(true);
 		
-		System.out.println("Check-in realizado com sucesso");
-	}	
+		System.out.println("\nCheck-in realizado com sucesso!");
+	}
+	public static void check_out() {
+	//REALIZA CHECK-OUT
+		Scanner input = new Scanner(System.in);
+		System.out.println("**************************************************"
+				+ "\n                    CHECK-OUT"
+				+ "\n**************************************************");
+		
+		System.out.println("CPF do cliente:  ");
+		String cpfClientOut = input.nextLine(); 
+		
+		//Percorre os quartos e verifica em qual quarto tem o CPF do cliente
+		for(int i = 0; i < Room.index; i++) {
+			if(room[i].getGuest().equals(cpfClientOut)) {
+				//Faz o processamento do check-out
+				int amountPay = (int) (room[i].getPrice()* room[i].getDaysHosted());
+				System.out.print("Dias hospedado: "+ room[i].getDaysHosted());
+				System.out.print("\nValor a pagar: R$"+(amountPay+feeService));
+				room[i].setOccupied(false);
+				room[i].setGuest(null);
+				System.out.println("\nCheck-out concluído!");	
+				break;
+			}
+		} 		
+	}
 }
